@@ -3,7 +3,7 @@ package com.ds.tree;
 import java.util.LinkedList;
 
 /**
- * Created by U6042192 on 04-Feb-17.
+ *
  */
 public class RootToLeafSum {
     Node root;
