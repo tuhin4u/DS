@@ -83,4 +83,20 @@ public class BinaryTreeToDLL {
 
 
     }
+    public static Node prev;
+    Node head;
+    public void covertTreeToDLLRec(Node root){
+        if(root==null)
+            return;
+        covertTreeToDLLRec(root.left);
+
+        if(prev==null)
+            prev=root;
+        else{
+            prev.right=root;
+            root.left=prev;
+        }
+        prev=root;
+        covertTreeToDLLRec(root.right);
+    }
 }
