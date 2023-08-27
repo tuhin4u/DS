@@ -2,24 +2,13 @@ package core.java.thread;
 
 import java.util.Vector;
 
-import java.util.Vector;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+class Producer implements  Runnable{
+    public Vector<Integer> sharedQueue;
+    public int size;
 
-class Producer implements Runnable {
-    private Vector<Integer> sharedQueue;
-    private int size;
-    private Lock lock;
-    private Condition notFull;
-    private Condition notEmpty;
-
-    public Producer(Vector<Integer> sharedQueue, int size, Lock lock, Condition notFull, Condition notEmpty) {
+    public Producer(Vector<Integer> sharedQueue, int size) {
         this.sharedQueue = sharedQueue;
         this.size = size;
-        this.lock = lock;
-        this.notFull = notFull;
-        this.notEmpty = notEmpty;
     }
 
     @Override
@@ -30,43 +19,41 @@ class Producer implements Runnable {
     }
 
     private void produce(int i) {
-        lock.lock();
-        try {
-            while (sharedQueue.size() == size) {
-                System.out.println("Queue is full " + Thread.currentThread().getName() +
-                        " is waiting , size: " + sharedQueue.size());
-                notFull.await();
+        //check if the queue is full then wait
+        if(sharedQueue.size()==size){
+            synchronized (sharedQueue){
+                try {
+                    System.out.println("Queue is full " + Thread.currentThread().getName()
+                            + " is waiting , size: " + sharedQueue.size());
+                    sharedQueue.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+        }
+        //if queue is not empty then produce int the queue
+        synchronized (sharedQueue){
             sharedQueue.add(i);
-            System.out.println(Thread.currentThread().getName() + " is producing " + i);
-            notEmpty.signalAll();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            lock.unlock();
+            System.out.println(Thread.currentThread().getName()+" is producing "+i);
+            sharedQueue.notifyAll();
         }
     }
+
 }
+class Consumer implements Runnable{
+    public Vector<Integer> sharedQueue;
+    public int size;
 
-class Consumer implements Runnable {
-    private Vector<Integer> sharedQueue;
-    private int size;
-    private Lock lock;
-    private Condition notFull;
-    private Condition notEmpty;
-
-    public Consumer(Vector<Integer> sharedQueue, int size, Lock lock, Condition notFull, Condition notEmpty) {
+    public Consumer(Vector<Integer> sharedQueue, int size) {
         this.sharedQueue = sharedQueue;
         this.size = size;
-        this.lock = lock;
-        this.notFull = notFull;
-        this.notEmpty = notEmpty;
     }
+
 
     @Override
     public void run() {
-        while (true) {
-            System.out.println("Consumed: " + consume());
+        while (true){
+            System.out.println("Consumed: "+consume());
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
@@ -76,38 +63,35 @@ class Consumer implements Runnable {
     }
 
     private int consume() {
-        lock.lock();
-        try {
-            while (sharedQueue.isEmpty()) {
-                System.out.println("Queue is empty " + Thread.currentThread().getName() +
-                        " is waiting , size: " + sharedQueue.size());
-                notEmpty.await();
+
+        //check if the queue is empty then wait
+        synchronized (sharedQueue){
+            if(sharedQueue.isEmpty()){
+                try {
+                    System.out.println("Queue is empty " + Thread.currentThread().getName()
+                            + " is waiting , size: " + sharedQueue.size());
+                    sharedQueue.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            int item = sharedQueue.remove(0);
-            notFull.signalAll();
-            return item;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return -1;
-        } finally {
-            lock.unlock();
+        }
+        //if queue is not empty the consume
+        synchronized (sharedQueue){
+            sharedQueue.notifyAll();
+            return sharedQueue.remove(0);
         }
     }
 }
-
 public class ProducerConsumerEx1 {
     public static void main(String[] args) {
-        Vector<Integer> sharedQueue = new Vector<>();
-        Lock lock = new ReentrantLock();
-        Condition notFull = lock.newCondition();
-        Condition notEmpty = lock.newCondition();
+        Vector<Integer> sharedQueue=new Vector<>();
+        Thread producerThred=new Thread(new Producer(sharedQueue,4),"Producer ");
+        Thread consumerThred1=new Thread(new Consumer(sharedQueue,4),"Consumer1 ");
+//        Thread consumerThred2=new Thread(new Consumer(sharedQueue,4),"Consumer2 ");
 
-        Thread producerThread = new Thread(new Producer(sharedQueue, 4, lock, notFull, notEmpty), "Producer ");
-        Thread consumerThread1 = new Thread(new Consumer(sharedQueue, 4, lock, notFull, notEmpty), "Consumer1 ");
-
-        producerThread.start();
-        consumerThread1.start();
+        producerThred.start();
+        consumerThred1.start();
+//        consumerThred2.start();
     }
 }
-
-
