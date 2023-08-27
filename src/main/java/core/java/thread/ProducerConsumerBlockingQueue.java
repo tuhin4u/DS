@@ -9,9 +9,11 @@ public class ProducerConsumerBlockingQueue {
         BlockingQueue<Integer> q=new ArrayBlockingQueue<Integer>(10);
 
         final Runnable producer=()->{
-            while (true){
+            int i=0;
+            while (i<20){
+                i++;
                 try {
-                    q.put(1);
+                    q.put(i);
                     System.out.println("producer thread-> queue size"+q.size());
 //                    if(q.size()==10){
 //                        System.out.println("producer thread-> queue is full");

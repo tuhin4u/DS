@@ -7,6 +7,7 @@ public class TreadStopEx2
         Thread t=new Thread(task);
         t.start();
         Thread.sleep(10);
+        System.out.println();
         task.flag=Boolean.FALSE;
     }
 }

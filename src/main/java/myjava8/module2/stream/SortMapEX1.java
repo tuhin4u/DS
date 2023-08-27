@@ -3,6 +3,7 @@ package myjava8.module2.stream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Map.Entry.comparingByValue;
 import static java.util.stream.Collectors.toMap;
@@ -31,12 +32,18 @@ public class SortMapEX1 {
         Map<String, Integer> sorted = budget
                 .entrySet()
                 .stream()
-                .sorted(comparingByValue())
+                .sorted(Map.Entry.comparingByValue())
                 .collect(
                         toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e2,
                                 LinkedHashMap::new));
 
         System.out.println(sorted);
+
+        budget.keySet().stream().filter(x->budget.get(x)>=5).collect(Collectors.toList()).forEach(x-> System.out.println(x));
+
+        budget.entrySet().stream().sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(e->e.getKey(),e->e.getValue(),(e1,e2)->e1,LinkedHashMap::new));
+
     }
 
 }

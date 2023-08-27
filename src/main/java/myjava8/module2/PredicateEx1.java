@@ -12,10 +12,10 @@ public class PredicateEx1 {
     public static void main(String[] args) {
         Predicate<String> p1=(s)->s.length()>4;
 
-        /*System.out.println(p1.test("abc"));
-        System.out.println(p1.test("abcd"));
-        System.out.println(p1.test("abcde"));
-        System.out.println(p1.test("abcdef"));*/
+        /*System.out.println(p1.interviewTest.test("abc"));
+        System.out.println(p1.interviewTest.test("abcd"));
+        System.out.println(p1.interviewTest.test("abcde"));
+        System.out.println(p1.interviewTest.test("abcdef"));*/
 
         Predicate<String> p2=(s)->s.length()<6;
 

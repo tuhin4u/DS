@@ -86,7 +86,7 @@ class GfG
 // Driver class
 public class MinSwaps
 {
-    // Driver program to test the above function
+    // Driver program to interviewTest.test the above function
     public static void main(String[] args)
     {
         int []a = {10, 20, 30,40};

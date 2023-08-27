@@ -15,6 +15,10 @@ public class MapFilterReduceEx {
         Integer reduce = numList.stream().filter(i -> i % 5==0).reduce(0, (i, j) -> i + j);
         System.out.println(reduce);
 
+        //to get sum of all elements
+        Integer sum = numList.stream().collect(Collectors.reducing(0, (i, j) -> i + j));
+        System.out.println("sum= "+sum);
+
 
 //        Map<Integer, Long> map = numList.stream().collect(groupingBy(Function.identity(), counting()))
 //                .entrySet().stream().sorted((a,b)->-a.getValue().compareTo(b.getValue()))

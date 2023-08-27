@@ -11,6 +11,7 @@ public class ExecutorEx1 {
 
         }
         System.out.println(Thread.currentThread().getName());
+        service.shutdown();
 
     }
     static  class Task implements Runnable{

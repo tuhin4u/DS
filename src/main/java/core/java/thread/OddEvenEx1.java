@@ -18,10 +18,10 @@ class OddPrinter implements Runnable{
     void printOdd(){
         if(container.get()%2!=0 && container.get()<=limit){
             synchronized (container){
-
+                System.out.print(Thread.currentThread().getName()+" : ");
                 System.out.println("Odd->"+container.get());
                 container.increment();
-                container.notifyAll();
+//                container.notifyAll();
             }
         }
         /*synchronized (container){
@@ -51,9 +51,10 @@ class EvenPrinter implements Runnable{
     void printEven(){
         if(container.get()%2==0 && container.get()<=limit){
             synchronized (container){
+                System.out.print(Thread.currentThread().getName()+" : ");
                 System.out.println("Even->"+container.get());
                 container.increment();
-                container.notifyAll();
+//                container.notifyAll();
             }
         }
         /*synchronized (container){

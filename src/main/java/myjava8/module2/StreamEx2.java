@@ -13,7 +13,8 @@ import java.util.stream.Stream;
 public class StreamEx2 {
     public static void main(String[] args) {
         List<String> list= Arrays.asList("Apple","Boy","Cat","Dog");
-        List<String> list1=list.stream().map(String::toLowerCase).collect(Collectors.toList());
+//        List<String> list1=list.stream().map(String::toLowerCase).collect(Collectors.toList());
+        List<String> list1=list.stream().map(x->x.toUpperCase()).collect(Collectors.toList());
         System.out.println(list1);
         list.forEach(System.out::println);
         Map map=new HashMap();

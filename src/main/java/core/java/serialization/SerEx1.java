@@ -7,7 +7,9 @@ import java.io.*;
  */
 class Dog implements Serializable{
     int a=10;
+    //transient doesnot have any effect if the variable is static or final
     static transient int b=20;
+//    transient int b=20;
 }
 public class SerEx1 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {

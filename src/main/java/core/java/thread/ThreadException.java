@@ -6,8 +6,8 @@ public class ThreadException {
         t.start();
         for (int i = 0; i < 10; i++) {
             System.out.println("from main thread "+i);
-//            if(i==5)
-//                Thread.sleep(100);
+            if(i==5)
+                Thread.sleep(100);
         }
     }
 }

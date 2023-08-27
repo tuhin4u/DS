@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class FileWriteEx1 {
     public static void writeToFile(List<String> emailList,String depth) {
-        final String filePath = "C:\\test\\";
-        String filename = "test";
+        final String filePath = "C:\\interviewTest.test\\";
+        String filename = "interviewTest/test";
         File file = new File(filePath + filename + "_" + depth + ".txt");
         //if file exist delete it
         if (file.exists()) {

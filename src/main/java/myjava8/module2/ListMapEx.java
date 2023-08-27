@@ -24,5 +24,6 @@ public class ListMapEx {
                 .reduce(0,(x,y)->x+y);
 
         System.out.println("sum="+sum);
+
     }
 }

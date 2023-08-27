@@ -42,7 +42,10 @@ class Task1 implements Runnable{
             e.printStackTrace();
         }
         if(name.equalsIgnoreCase("auditor")){
-            System.out.println("auditing is done producer an consumer");
+            System.out.println("auditing is done producer and consumer");
         }
+//        if(name.equalsIgnoreCase("producer")){
+//            System.out.println("auditing is done producer and consumer");
+//        }
     }
 }

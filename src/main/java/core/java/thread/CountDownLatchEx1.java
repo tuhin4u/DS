@@ -12,6 +12,8 @@ public class CountDownLatchEx1 {
             executorService.submit(new Task3(i,latch));
         }
         latch.await();
+        System.out.println("from main");
+        executorService.shutdown();
     }
 }
 class Task3 implements Runnable{
